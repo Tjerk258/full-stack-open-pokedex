@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as  Routes, Route, useMatch } from 'react-router-dom'
+import { BrowserRouter as Ignored, Routes, Route, useMatch } from 'react-router-dom'
 import { useApi } from './useApi'
 import LoadingSpinner from './LoadingSpinner'
 import ErrorMessage from './ErrorMessage'
@@ -23,13 +23,21 @@ const App = () => {
     return <ErrorMessage error={error} />
   }
 
+  const minMaxChecker = (value, min, max) => {
+    if(value >= max)
+      return max
+    else if(value < min)
+      return min
+    return value
+  }
+
   let next = null
   let previous = null
 
   if (match && match.params) {
     const pokemonId = pokemonList.find(({ name }) => name === match.params.name).id
-    previous = pokemonList.find(({ id }) => id === pokemonId - 1)
-    next = pokemonList.find(({ id }) => id === pokemonId + 1)
+    previous = minMaxChecker(pokemonList.find(({ id }) => id === pokemonId - 1), 0, pokemonList.length)
+    next = minMaxChecker(pokemonList.find(({ id }) => id === pokemonId + 1), 0, pokemonList.length)
   }
 
   return (
