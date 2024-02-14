@@ -9,8 +9,6 @@ app.get('/version', (req, res) => {
 })
 
 app.get('/health', (req, res) => {
-  let test = 1
-  if (test) throw('error...  ')
   res.send('ok')
 })
 
